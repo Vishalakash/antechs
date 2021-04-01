@@ -1,0 +1,6 @@
+
+entity Purchase {
+    name String,
+	address String,
+    age Integer
+}

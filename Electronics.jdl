@@ -1,0 +1,7 @@
+
+entity Electronics {
+    img ImageBlob,
+    modelname String,
+	type String,
+    price Long
+}

@@ -1,0 +1,7 @@
+
+entity Clothing {
+    img ImageBlob,
+    barnd String,
+	type String,
+    price Long
+}

@@ -1,0 +1,49 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="clothing">
+            <h2><span>Clothing</span> {{ clothing.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span>Img</span></dt>
+                <dd>
+                    <div *ngIf="clothing.img">
+                        <a (click)="openFile(clothing.imgContentType, clothing.img)">
+                            <img [src]="'data:' + clothing.imgContentType + ';base64,' + clothing.img" style="max-width: 100%;" alt="clothing image"/>
+                        </a>
+                        {{ clothing.imgContentType }}, {{ byteSize(clothing.img) }}
+                    </div>
+                </dd>
+                <dt><span>Barnd</span></dt>
+                <dd>
+                    <span>{{ clothing.barnd }}</span>
+                </dd>
+                <dt><span>Type</span></dt>
+                <dd>
+                    <span>{{ clothing.type }}</span>
+                </dd>
+                <dt><span>Price</span></dt>
+                <dd>
+                    <span>{{ clothing.price }}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+            </button>
+
+            <li *jhiHasAnyAuthority="'ROLE_ADMIN'" display="dynamic" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                <button type="button"
+                       [routerLink]="['/clothing', clothing.id, 'edit']"
+                     class="btn btn-primary">
+                    <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+                 </button>
+            </li>
+        </div>
+    </div>
+</div>

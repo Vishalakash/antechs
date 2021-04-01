@@ -1,0 +1,49 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="electronics">
+            <h2><span>Electronics</span> {{ electronics.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span>Img</span></dt>
+                <dd>
+                    <div *ngIf="electronics.img">
+                        <a (click)="openFile(electronics.imgContentType, electronics.img)">
+                            <img [src]="'data:' + electronics.imgContentType + ';base64,' + electronics.img" style="max-width: 100%;" alt="electronics image"/>
+                        </a>
+                        {{ electronics.imgContentType }}, {{ byteSize(electronics.img) }}
+                    </div>
+                </dd>
+                <dt><span>Modelname</span></dt>
+                <dd>
+                    <span>{{ electronics.modelname }}</span>
+                </dd>
+                <dt><span>Type</span></dt>
+                <dd>
+                    <span>{{ electronics.type }}</span>
+                </dd>
+                <dt><span>Price</span></dt>
+                <dd>
+                    <span>{{ electronics.price }}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+            </button>
+
+            <li *jhiHasAnyAuthority="'ROLE_ADMIN'" display="dynamic" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+             <button type="button"
+                 [routerLink]="['/electronics', electronics.id, 'edit']"
+                    class="btn btn-primary">
+                 <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+             </button>
+            </li> 
+        </div>
+    </div>
+</div>

@@ -1,0 +1,78 @@
+<div>
+    <h2 id="page-heading">
+        <span>Clothing</span>
+        <li *jhiHasAnyAuthority="'ROLE_ADMIN'" display="dynamic" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-clothing" [routerLink]="['/clothing/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span>
+            Create a new Clothing
+            </span>
+        </button>
+        </li>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="clothing?.length === 0">
+        <span>No clothing found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="clothing && clothing.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr>
+                    <th scope="col" ><span>ID</span></th>
+                    <th scope="col" ><span>Img</span></th>
+                    <th scope="col" ><span>Barnd</span></th>
+                    <th scope="col" ><span>Type</span></th>
+                    <th scope="col" ><span>Price</span></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let clothing of clothing ;trackBy: trackId">
+                    <td><a [routerLink]="['/clothing', clothing.id, 'view']">{{ clothing.id }}</a></td>
+                    <td>
+                        <a *ngIf="clothing.img" (click)="openFile(clothing.imgContentType, clothing.img)">
+                            <img [src]="'data:' + clothing.imgContentType + ';base64,' + clothing.img" style="max-height: 30px;" alt="clothing image"/>
+                        </a>
+                        <span *ngIf="clothing.img">{{ clothing.imgContentType }}, {{ byteSize(clothing.img) }}</span>
+                    </td>
+                    <td>{{ clothing.barnd }}</td>
+                    <td>{{ clothing.type }}</td>
+                    <td>{{ clothing.price }}</td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/clothing', clothing.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline">View</span>
+                            </button>
+
+                            <li *jhiHasAnyAuthority="'ROLE_ADMIN'" display="dynamic" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                            <button type="submit"
+                                    [routerLink]="['/clothing', clothing.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline">Edit</span>
+                            </button>
+                            </li>
+                            
+                            <li *jhiHasAnyAuthority="'ROLE_ADMIN'" display="dynamic" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                                <button type="submit" (click)="delete(clothing)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline">Delete</span>
+                            </button>
+                            </li>
+                            
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
