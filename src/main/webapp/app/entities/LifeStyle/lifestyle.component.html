@@ -1,0 +1,73 @@
+<div>
+    <h2 id="page-heading">
+        <span>LifeStyle</span>
+     <li *jhiHasAnyAuthority="'ROLE_ADMIN'" display="dynamic" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-lifestyle" [routerLink]="['/lifestyle/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span>
+            Create a new LifeStyle
+            </span>
+        </button>
+     </li>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="lifestyle?.length === 0">
+        <span>No lifestyle found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="lifestyle && lifestyle.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr>
+                    <th scope="col" ><span>ID</span></th>
+                    <th scope="col" ><span>Img</span></th>
+                    <th scope="col" ><span>Type</span></th>
+                    <th scope="col" ><span>Price</span></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let lifestyle of lifestyle ;trackBy: trackId">
+                    <td><a [routerLink]="['/lifestyle', lifestyle.id, 'view']">{{ lifestyle.id }}</a></td>
+                    <td>
+                        <a *ngIf="lifestyle.img" (click)="openFile(lifestyle.imgContentType, lifestyle.img)">
+                            <img [src]="'data:' + lifestyle.imgContentType + ';base64,' + lifestyle.img" style="max-height: 30px;" alt="lifestyle image"/>
+                        </a>
+                        <span *ngIf="lifestyle.img">{{ lifestyle.imgContentType }}, {{ byteSize(lifestyle.img) }}</span>
+                    </td>
+                    <td>{{ lifestyle.type }}</td>
+                    <td>{{ lifestyle.price }}</td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/lifestyle', lifestyle.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline">View</span>
+                            </button>
+                        <li *jhiHasAnyAuthority="'ROLE_ADMIN'" display="dynamic" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                            <button type="submit"
+                                    [routerLink]="['/lifestyle', lifestyle.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline">Edit</span>
+                            </button>
+                        </li>
+                        <li *jhiHasAnyAuthority="'ROLE_ADMIN'" display="dynamic" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                            <button type="submit" (click)="delete(lifestyle)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline">Delete</span>
+                            </button>
+                        </li>    
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

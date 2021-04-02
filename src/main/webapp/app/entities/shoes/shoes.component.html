@@ -1,0 +1,73 @@
+<div>
+    <h2 id="page-heading">
+        <span>Shoes</span>
+    
+        <button *jhiHasAnyAuthority="'ROLE_ADMIN'" id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-shoes" [routerLink]="['/shoes/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span>
+            Create new Shoes
+            </span>
+        </button>
+     
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="shoes?.length === 0">
+        <span>No shoes found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="shoes && shoes.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr>
+                    <th scope="col" ><span>ID</span></th>
+                    <th scope="col" ><span>Img</span></th>
+                    <th scope="col" ><span>Type</span></th>
+                    <th scope="col" ><span>Price</span></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let shoes of shoes ;trackBy: trackId">
+                    <td><a [routerLink]="['/shoes', shoes.id, 'view']">{{ shoes.id }}</a></td>
+                    <td>
+                        <a *ngIf="shoes.img" (click)="openFile(shoes.imgContentType, shoes.img)">
+                            <img [src]="'data:' + shoes.imgContentType + ';base64,' + shoes.img" style="max-height: 30px;" alt="shoes image"/>
+                        </a>
+                        <span *ngIf="shoes.img">{{ shoes.imgContentType }}, {{ byteSize(shoes.img) }}</span>
+                    </td>
+                    <td>{{ shoes.type }}</td>
+                    <td>{{ shoes.price }}</td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/shoes', shoes.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline">View</span>
+                            </button>
+                        <li *jhiHasAnyAuthority="'ROLE_ADMIN'" display="dynamic" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                            <button type="submit"
+                                    [routerLink]="['/shoes', shoes.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline">Edit</span>
+                            </button>
+                        </li>
+                        <li *jhiHasAnyAuthority="'ROLE_ADMIN'" display="dynamic" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                            <button type="submit" (click)="delete(shoes)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline">Delete</span>
+                            </button>
+                        </li>    
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
